@@ -28,14 +28,31 @@ const Shop = (() => {
     ];
 
     const upgrades = [
-        { id:'power',    name:'Power+',    desc:'Increase max swing power.',   levels: [
-            {cost:10,  bonus:0.05}, {cost:25, bonus:0.1}, {cost:60, bonus:0.15}
+        { id:'power',    name:'Power+',    desc:'Increase max swing power.', levels: [
+            {cost:3,  bonus:0.06},
+            {cost:6,  bonus:0.12},
+            {cost:10, bonus:0.18},
+            {cost:16, bonus:0.24},
+            {cost:24, bonus:0.30},
+            {cost:36, bonus:0.38},
+            {cost:55, bonus:0.46},
+            {cost:80, bonus:0.55},
         ]},
-        { id:'accuracy', name:'Accuracy+', desc:'Smaller wobble in power meter.', levels: [
-            {cost:10, bonus:0.2}, {cost:25, bonus:0.4}, {cost:60, bonus:0.7}
+        { id:'accuracy', name:'Accuracy+', desc:'Less wobble in the power meter.', levels: [
+            {cost:3,  bonus:0.20},
+            {cost:6,  bonus:0.35},
+            {cost:10, bonus:0.50},
+            {cost:18, bonus:0.65},
+            {cost:30, bonus:0.80},
+            {cost:50, bonus:1.00},
         ]},
-        { id:'spin',     name:'Spin+',     desc:'More backspin control.',      levels: [
-            {cost:10, bonus:0.5}, {cost:25, bonus:1}, {cost:60, bonus:2}
+        { id:'spin',     name:'Spin+',     desc:'More backspin control.', levels: [
+            {cost:3,  bonus:0.5},
+            {cost:6,  bonus:1.0},
+            {cost:10, bonus:1.5},
+            {cost:18, bonus:2.5},
+            {cost:30, bonus:3.5},
+            {cost:50, bonus:5.0},
         ]},
     ];
 

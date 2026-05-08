@@ -27,7 +27,7 @@
         ball: makeBall(),
         cam: { x: 0, y: 0, w: VW, h: VH, target: 0 },
         aiming: false,
-        aim: { dx: 0, dy: 0, maxVel: 1100 },
+        aim: { dx: 0, dy: 0, maxVel: 1700 },
         power: 0,
         powerWobble: 0,
         powerCharging: false,

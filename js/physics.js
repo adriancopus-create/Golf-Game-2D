@@ -48,9 +48,9 @@ const Physics = (() => {
             let windForce = wind.speed * 8 * (wind.dir > 0 ? 1 : -1);
             if (wind.gusty) windForce *= (1 + Math.sin(performance.now()/1500)*0.6);
 
-            // underwater drag for hole 10
-            const drag = hole.underwater ? 1.6 : 0.04;
-            const grav = hole.underwater ? GRAVITY * 0.35 : GRAVITY;
+            // underwater drag for hole 10 — gentler so the hole is still completable
+            const drag = hole.underwater ? 0.6 : 0.04;
+            const grav = hole.underwater ? GRAVITY * 0.5 : GRAVITY;
 
             // gravity well (hole 16)
             if (hole.gravityWell) {
@@ -314,13 +314,13 @@ const Physics = (() => {
         const slope = slopeAt(hole, ball.x);
         // surface restitution
         const props = {
-            green:    { rest: 0.3, friction: 4.0 },
-            fairway:  { rest: 0.4, friction: 1.6 },
-            rough:    { rest: 0.2, friction: 5.0 },
-            sand:     { rest: 0.15, friction: 7.0 },
-            ice:      { rest: 0.25, friction: 0.18 },
-            water:    { rest: 0.0, friction: 0 },
-            lava:     { rest: 0.0, friction: 0 },
+            green:    { rest: 0.3,  friction: 4.0 },
+            fairway:  { rest: 0.4,  friction: 1.6 },
+            rough:    { rest: 0.2,  friction: 5.0 },
+            sand:     { rest: 0.18, friction: 4.5 },
+            ice:      { rest: 0.3,  friction: 0.45 },
+            water:    { rest: 0.0,  friction: 0 },
+            lava:     { rest: 0.0,  friction: 0 },
         }[surface] || { rest: 0.4, friction: 1.6 };
 
         // hazard check first
@@ -365,14 +365,15 @@ const Physics = (() => {
         ball.vx = newVt*cs + newVn*sn;
         ball.vy = newVt*sn - newVn*cs;
 
-        // sand greatly drains energy
+        // sand drains some energy but keeps carry
         if (surface === 'sand') {
-            ball.vx *= 0.4; ball.vy *= 0.4;
+            ball.vx *= 0.65; ball.vy *= 0.65;
             if (audio && impactSpeed > 80) audio.sand();
             if (fx && impactSpeed > 80)
-                fx.burst(ball.x, gy, 8, {color:['#f0d488','#fff'], speed:180, life:0.4, grav:600});
+                fx.burst(ball.x, gy, 10, {color:['#f0d488','#fff'], speed:180, life:0.4, grav:600});
         } else if (surface === 'ice') {
-            ball.vx *= 0.96;
+            // glide along the surface; conserve most tangential velocity
+            ball.vx *= 0.98;
         } else {
             if (audio && impactSpeed > 120) audio.bounce(impactSpeed/600);
             if (fx && impactSpeed > 200) {
@@ -406,8 +407,8 @@ const Physics = (() => {
         let px = x0, py = y0, pvx = vx, pvy = vy;
         for (let i = 0; i < steps; i++) {
             const wind = hole.wind || {speed:0,dir:1};
-            const drag = hole.underwater ? 1.6 : 0.04;
-            const grav = hole.underwater ? GRAVITY*0.35 : GRAVITY;
+            const drag = hole.underwater ? 0.6 : 0.04;
+            const grav = hole.underwater ? GRAVITY*0.5 : GRAVITY;
             pvx += wind.speed*8*(wind.dir>0?1:-1)*dt;
             pvx *= 1 - drag*dt;
             pvy += grav*dt;

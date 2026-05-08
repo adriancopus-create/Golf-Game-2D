@@ -261,7 +261,7 @@ const Holes = (() => {
         palette: { sky:'#bce6f5', horizon:'#deeef6', grass:'#7ac774', fairway:'#92d684',
             dirt:'#7d4f2d', sand:'#f1d077', flower:'#f7df3a', flag:'#d44a3b', ink:'#1e1428' },
         tee:{x:180, y:0}, cup:{x:2200, r:16},
-        wind:{speed:12, dir:-1},
+        wind:{speed:8, dir:1},
         hazards: [{ type:'sand', x1:1700, x2:1820 }],
         groundHeight(x) {
             return 540 - smoothBump(x, 700, 400, 30)
@@ -270,7 +270,7 @@ const Holes = (() => {
                        + sin(x*0.018)*4;
         },
         obstacles: [
-            { type:'windmill', x:1200, y:380, bladeLen:90, speed:1.4, _angle:0 },
+            { type:'windmill', x:1200, y:430, bladeLen:80, speed:1.2, _angle:0 },
         ],
         drawBackground(ctx, hole, cam) {
             skyBand(ctx, hole, cam, [
@@ -1358,12 +1358,31 @@ const Holes = (() => {
     };
 
     const all = [hole1,hole2,hole3,hole4,hole5,hole6,hole7,hole8,hole9,hole10,hole11,hole12,hole13,hole14,hole15,hole16,hole17,hole18];
-    // assign tee y from groundHeight
+    // assign tee y from groundHeight, install defaults, carve sand bunkers as depressions
     for (const h of all) {
-        h.tee.y = h.groundHeight(h.tee.x);
         if (!h.drawTerrain) h.drawTerrain = drawTerrain;
         if (!h.update) h.update = function(){};
         if (!h.obstacles) h.obstacles = [];
+
+        if (h.hazards && h.hazards.some(hz => hz.type === 'sand')) {
+            const original = h.groundHeight.bind(h);
+            const sandBunkers = h.hazards.filter(hz => hz.type === 'sand');
+            h.groundHeight = function(x) {
+                let y = original(x);
+                for (const hz of sandBunkers) {
+                    if (x >= hz.x1 && x <= hz.x2) {
+                        const cx = (hz.x1 + hz.x2) / 2;
+                        const w  = (hz.x2 - hz.x1) / 2;
+                        const t  = (x - cx) / w;
+                        const dip = (hz.depth || 18) * (1 - t*t); // parabola
+                        y += dip;
+                    }
+                }
+                return y;
+            };
+        }
+
+        h.tee.y = h.groundHeight(h.tee.x);
     }
 
     return { all, drawCup, drawTerrain, helpers: { smoothBump, poly, tri } };
