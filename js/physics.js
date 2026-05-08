@@ -198,11 +198,9 @@ const Physics = (() => {
                 const bx = o.x, by = o.y0 - 32, bw = 60, bh = 32;
                 if (boxOverlap(ball, bx, by, bw, bh)) bounceOffBox(ball, bx, by, bw, bh, 0.6, audio, fx);
             } else if (o.type === 'pool') {
-                if (ball.x > o.x && ball.x < o.x + o.w && ball.y > o.y0 - 10) {
-                    ball.state = 'water';
-                    if (audio) audio.splash();
-                    if (fx) fx.burst(ball.x, o.y0, 12, {color:['#bee3ec','#fff'], speed:260, life:0.6, grav:600});
-                }
+                // Tiny Town's pool IS the green (cup sits in it) — purely decorative,
+                // no hazard collision.  Cup detection handles the rest.
+                continue;
             } else if (o.type === 'hedge') {
                 const bx = o.x - o.w/2, by = o.y1, bw = o.w, bh = o.y2 - o.y1;
                 if (boxOverlap(ball, bx, by, bw, bh)) bounceOffBox(ball, bx, by, bw, bh, 0.4, audio, fx);
