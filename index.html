@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chip Shot Golf — A Low-Poly Adventure</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="game-root">
+    <canvas id="game-canvas"></canvas>
+
+    <div id="hud" class="hidden">
+        <div class="hud-row top">
+            <div class="hud-card" id="hud-hole">
+                <span class="label">HOLE</span>
+                <span class="value" id="hud-hole-num">1</span>
+                <span class="sub" id="hud-hole-name">Opening Tee</span>
+            </div>
+            <div class="hud-card" id="hud-stroke">
+                <span class="label">STROKES</span>
+                <span class="value" id="hud-stroke-num">0</span>
+                <span class="sub">Par <span id="hud-par">3</span></span>
+            </div>
+            <div class="hud-card" id="hud-wind">
+                <span class="label">WIND</span>
+                <div id="windsock"><div id="windsock-arrow">&#8594;</div></div>
+                <span class="sub" id="hud-wind-mph">0 mph</span>
+            </div>
+            <div class="hud-card" id="hud-birdies">
+                <span class="label">BIRDIES</span>
+                <span class="value" id="hud-birdie-count">0</span>
+                <span class="sub">currency</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="power-meter" class="hidden">
+        <div id="power-fill"></div>
+        <div id="power-tick"></div>
+    </div>
+
+    <div id="club-select" class="hidden">
+        <button data-club="driver">Driver</button>
+        <button data-club="iron">Iron</button>
+        <button data-club="wedge">Wedge</button>
+        <button data-club="putter">Putter</button>
+    </div>
+
+    <!-- Main menu -->
+    <div id="menu" class="overlay">
+        <div class="menu-panel">
+            <h1 class="logo">CHIP SHOT<br><span>GOLF</span></h1>
+            <p class="tagline">A Low-Poly Adventure in 18 Holes</p>
+            <div class="menu-buttons">
+                <button id="btn-play" class="big-btn primary">Tee Off</button>
+                <button id="btn-shop" class="big-btn">Pro Shop</button>
+                <button id="btn-holes" class="big-btn">Hole Select</button>
+                <button id="btn-reset" class="text-btn">Reset Save</button>
+            </div>
+            <p class="credits">Click & drag to aim · Hold to charge · Release to swing</p>
+        </div>
+    </div>
+
+    <!-- Hole intro -->
+    <div id="hole-intro" class="overlay hidden">
+        <div class="intro-panel">
+            <div class="intro-num">HOLE <span id="intro-num">1</span></div>
+            <div class="intro-name" id="intro-name">Opening Tee</div>
+            <div class="intro-par">Par <span id="intro-par">3</span></div>
+            <div class="intro-flair" id="intro-flair">Sunny meadow</div>
+        </div>
+    </div>
+
+    <!-- Hole select -->
+    <div id="hole-select" class="overlay hidden">
+        <div class="menu-panel wide">
+            <h2>Select Hole</h2>
+            <div id="hole-grid"></div>
+            <button class="big-btn" data-back="menu">Back</button>
+        </div>
+    </div>
+
+    <!-- Pro shop -->
+    <div id="shop" class="overlay hidden">
+        <div class="menu-panel wide">
+            <h2>Pro Shop <span class="shop-bal">Balance: <span id="shop-birdies">0</span> 🐦</span></h2>
+            <div class="shop-tabs">
+                <button class="shop-tab active" data-tab="clubs">Club Skins</button>
+                <button class="shop-tab" data-tab="trails">Ball Trails</button>
+                <button class="shop-tab" data-tab="caddies">Caddies</button>
+                <button class="shop-tab" data-tab="upgrades">Upgrades</button>
+            </div>
+            <div id="shop-grid"></div>
+            <button class="big-btn" data-back="menu">Back</button>
+        </div>
+    </div>
+
+    <!-- Hole complete -->
+    <div id="hole-complete" class="overlay hidden">
+        <div class="menu-panel">
+            <div class="result-banner" id="result-banner">PAR</div>
+            <div class="result-stats">
+                <div><span>Strokes</span><strong id="result-strokes">3</strong></div>
+                <div><span>Par</span><strong id="result-par">3</strong></div>
+                <div><span>Birdies Earned</span><strong id="result-earned">0</strong></div>
+            </div>
+            <button id="btn-next-hole" class="big-btn primary">Next Hole</button>
+        </div>
+    </div>
+
+    <!-- Final scorecard -->
+    <div id="scorecard" class="overlay hidden">
+        <div class="menu-panel wide">
+            <h2>Final Scorecard</h2>
+            <div id="scorecard-table"></div>
+            <div class="totals" id="scorecard-totals"></div>
+            <button id="btn-scorecard-done" class="big-btn primary">Continue</button>
+        </div>
+    </div>
+
+    <div id="floating-texts"></div>
+    <div id="confetti-layer"></div>
+</div>
+
+<script src="js/storage.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/effects.js"></script>
+<script src="js/holes.js"></script>
+<script src="js/physics.js"></script>
+<script src="js/render.js"></script>
+<script src="js/shop.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
