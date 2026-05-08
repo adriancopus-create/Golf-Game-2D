@@ -150,7 +150,8 @@
 
     function onPointerDown(e) {
         if (State.screen !== 'playing') return;
-        if (State.ball.state !== 'settled') return;
+        // allow swings while settled, flying, or rolling — but not after the hole is over / hazard reset
+        if (!['settled','flying','rolling'].includes(State.ball.state)) return;
         dragOrigin = pointerToWorld(e);
         State.aiming = true;
         State.power = 0;
