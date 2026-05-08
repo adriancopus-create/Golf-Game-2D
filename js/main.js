@@ -78,6 +78,7 @@
         State.screen = 'playing'; // start drawing the hole world behind the intro overlay
         updateHUD();
         Audio.uiPop();
+        Music.start(Music.profileForHole(idx));
         setTimeout(() => intro.classList.add('hidden'), 1700);
     }
 
@@ -467,6 +468,7 @@
         document.getElementById('hole-select').classList.add('hidden');
         document.getElementById('shop').classList.add('hidden');
         document.getElementById('scorecard').classList.add('hidden');
+        Music.start(Music.menu());
     }
     function backToMenu() {
         // close any overlay

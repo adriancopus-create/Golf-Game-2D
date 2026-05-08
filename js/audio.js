@@ -128,8 +128,12 @@ const Audio = (() => {
     }
     function setMuted(m) { muted = m; }
 
+    function getContext() { return ensureCtx(); }
+    function getMaster() { ensureCtx(); return masterGain; }
+
     return {
         thwack, bounce, roll, splash, sand, holeIn, coin, crowdCheer,
         fanfare, whoosh, uiClick, uiPop, powerCharge, setMuted,
+        getContext, getMaster,
     };
 })();

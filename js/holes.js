@@ -989,7 +989,6 @@ const Holes = (() => {
             { type:'house', x:600,  y0:540, w:100, h:100, color:'#e74c3c' },
             { type:'house', x:780,  y0:540, w:80,  h:80,  color:'#f5c43c' },
             { type:'house', x:1000, y0:540, w:120, h:130, color:'#3a91d6' },
-            { type:'pool',  x:1700, y0:540, w:160, h:24 },
             { type:'car',   x:900,  y0:540, color:'#ff6b8a' },
         ],
         drawBackground(ctx, hole, cam) {
